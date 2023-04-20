@@ -487,6 +487,7 @@ class MethodEnv {
 		else if (Strings.equal(name, "load")) { op = cache.opLoad; typeParams = cache.typeParamList; }
 		else if (Strings.equal(name, "store")) { op = cache.opStore; typeParams = cache.typeParamList; }
 		else if (Strings.equal(name, "cmpswp")) { op = cache.opCmpSwp; typeParams = cache.typeParamList; }
+		else if (Strings.equal(name, "toRange")) { op = cache.opToRange; typeParams = cache.typeParamList; }
 		return bindInstOp(expr, op, typeParams);
 	}
 	def lookupPointerExprMember(expr: VarExpr, etype: Type) -> VarBinding {
@@ -498,6 +499,7 @@ class MethodEnv {
 		if (Strings.equal(name, "load")) { op = cache.opLoad; typeParams = cache.typeParamList; }
 		else if (Strings.equal(name, "store")) { op = cache.opStore; typeParams = cache.typeParamList; }
 		else if (Strings.equal(name, "cmpswp")) { op = cache.opCmpSwp; typeParams = cache.typeParamList; }
+		else if (Strings.equal(name, "toRange")) { op = cache.opToRange; typeParams = cache.typeParamList; }
 		if (op == null) return VarBinding.None;
 		var typeArgs = makeTypeArgs("member", expr, typeParams);
 		if (typeArgs != null) op = op.subst(typeArgs.substitute);

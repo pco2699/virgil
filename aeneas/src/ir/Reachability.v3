@@ -47,6 +47,7 @@ class ReachabilityAnalyzer(compilation: Compilation) {
 	def queue = WorkQueue.new();
 	def classes = Vector<RaClass>.new();
 	def arrays = Vector<RaArray>.new();
+	def rangeFromPtrBase = TypeUtil.newTypeMap<Record>();
 	var liveMethods = Vector<RaMethod>.new();
 
 	// perform the analysis, starting from the roots
@@ -326,6 +327,16 @@ class ReachabilityAnalyzer(compilation: Compilation) {
 			CallVariantVirtual(method) => getVirtual(opMethod(op, method, context));
 			PtrAtObjectField(field) => if (op.useList != null) getAndSetField(makeField(op, field, context));
 			PtrAtComponentField(field) => if (op.useList != null) getAndSetField(makeField(op, field, context));
+			RangeFromPtrAndLength => if (op.useList != null) {
+				// Normalized code makes use of a per-type zero-length array
+				var rt = V3Range.newType(mono(op.op.typeArgs[1], context));
+				var r = rangeFromPtrBase[rt];
+				if (r == null) {
+					r = prog.newRecord(rt, 0);
+					rangeFromPtrBase[rt] = r;
+					analyzeRecord(r);
+				}
+			}
 			_ => ;
 		}
 	}
