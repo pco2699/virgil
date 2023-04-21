@@ -1,0 +1,24 @@
+//@execute = true
+def SYS_open = 5;
+def SYS_mmap = 9;
+
+def O_RDONLY	= 0;      // open read-only
+def O_WRONLY	= 1;      // open write-only
+def O_RDWR	= 2;      // open read-write
+def PROT_READ = 0x1;
+def PROT_WRITE = 0x2;
+def PROT_EXEC = 0x4;
+def PROT_NONE = 0x0;
+def MAP_SHARED = 0x1;
+def MAP_PRIVATE = 0x2;
+def MAP_FIXED = 0x10;
+def MAP_ANONYMOUS = 0x20;
+	
+def main() -> bool {
+	var path = Pointer.atContents("test.txt\x00");
+	var fd = Linux.syscall(SYS_open, (path, O_RDONLY, 0)).0;
+	if (fd < 0) return false;
+	def fileSize = 45;
+	var res = Linux.syscall(SYS_mmap, (Pointer.NULL, fileSize, PROT_READ, MAP_PRIVATE, fd, 0)).0;
+	return res == 0;
+}

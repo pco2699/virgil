@@ -1,0 +1,9 @@
+//@execute 0=false; 1=false; 2=false; 3=false
+def data1 = "aabb";
+def data2 = "bbcc";
+
+def main(a: int) -> bool {
+	var r1 = Pointer.atContents(data1).toRange<byte>(a);
+	var r2 = Pointer.atContents(data2).toRange<byte>(a);
+	return r1 == r2;
+}
