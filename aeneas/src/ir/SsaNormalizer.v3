@@ -555,8 +555,7 @@ class SsaRaNormalizer extends SsaRebuilder {
 				var ptrType = normTypeArg(op, 0).newType;
 				var elemType = normTypeArg(op, 1).newType;
 				var arrayType = V3Array.newType(elemType);
-				var rt = V3Range.newType(elemType);
-				var i_base = newGraph.valConst(arrayType, norm.ra.rangeFromPtrBase[rt]);
+				var i_base = newGraph.valConst(arrayType, norm.ra.zeroLengthArray[arrayType]);
 				var newArgs = genRefs(args);
 				var i_ptr = newArgs[0];
 				var i_length = newArgs[1];

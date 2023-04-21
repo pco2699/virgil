@@ -558,6 +558,21 @@ class MachLowering(mach: MachProgram, compiler: Compiler, config: MachLoweringCo
 				var offset = context.graph.intConst(mach.classFieldOffset(fieldRef));
 				ni = ptrAdd(nobj, offset);
 			}
+			RangeStartFromPtr => {
+				var ptrType = PointerType.!(oi.op.typeArgs[0]);
+				var opcache = Pointer_TypeCon.!(ptrType.typeCon).opcache();
+				var arrayType = V3Array.newType(oi.op.typeArgs[1]);
+				var inputs = normRefs(oi.inputs);
+				var hsize = mach.getArrayElemOffset(arrayType, 0), scale = mach.getArrayElemScale(arrayType);
+				var atElem = ptrAdd(inputs[0], context.graph.intConst(hsize));
+				var diff = curBlock.addApply(oi.source, opcache.opSub, [inputs[1], atElem]);
+				var it = opcache.it;
+				if (scale > 1) {
+					var op = it.opcache().arith(V3Infix.Div, Opcode.IntDiv);
+					diff = curBlock.addApply(oi.source, op, [diff, context.graph.intConst(scale)]);
+				}
+				ni = diff;
+			}
 			TupleCreate,		// --
 			ClassGetVirtual,	// --
 			Init,			// --
