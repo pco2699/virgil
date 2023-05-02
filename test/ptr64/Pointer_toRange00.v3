@@ -1,0 +1,8 @@
+//@execute = true
+//TODO: merge identical tests with ptr32
+def main() -> bool {
+	var p: Pointer;
+	var r1 = p.toRange<byte>(0);
+	var r2 = p.toRange<byte>(0);
+	return r1 == r2;
+}

@@ -1,0 +1,8 @@
+//@execute 0=true
+def data = "aabbccddee";
+def main(a: int) -> bool {
+	var p: Pointer = Pointer.atContents(data);
+	var r1 = p.toRange<byte>(data.length);
+	var q: Pointer = Pointer.atContents(r1);
+	return p == q;
+}

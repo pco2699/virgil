@@ -551,6 +551,19 @@ class SsaRaNormalizer extends SsaRebuilder {
 					V3Op.newPtrAtComponentField(raField.norm[0], app.op.sig.returnType()), Ssa.NO_INSTRS);
 				map1(app, newInstr);
 			}
+			RangeFromPtrAndLength => {
+				var ptrType = normTypeArg(op, 0).newType;
+				var elemType = normTypeArg(op, 1).newType;
+				var arrayType = V3Array.newType(elemType);
+				var i_base = newGraph.valConst(arrayType, norm.ra.zeroLengthArray[arrayType]);
+				var newArgs = genRefs(args);
+				var i_ptr = newArgs[0];
+				var i_length = newArgs[1];
+				var i_negative = curBlock.opIntLt(i_length, newGraph.zeroConst());
+				curBlock.opConditionalThrow(V3Exception.LengthCheck, i_negative);
+				var i_start = curBlock.addApply(app.source, V3Op.newRangeStartFromPtr(ptrType, elemType), [i_base, i_ptr]);
+				mapN(app, [i_base, i_start, i_length]);
+			}
 			_ => {
 				normDefault(app, op);
 			}

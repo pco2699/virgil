@@ -1,0 +1,7 @@
+//@execute 0=97; 1=98; 2=99; 3=!BoundsCheckException
+def data = "abcDEF";
+def main(a: int) -> byte {
+	var p = Pointer.atContents(data);
+	var r = p.toRange<byte>(3);
+	return r[a];
+}

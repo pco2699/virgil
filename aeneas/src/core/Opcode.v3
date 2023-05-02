@@ -150,6 +150,8 @@ type Opcode {
 	case PtrCmpSwp;
 	case PtrLoad;
 	case PtrStore;
+	case RangeFromPtrAndLength;
+	case RangeStartFromPtr;
 	// Get caller instruction pointer or stack pointer
 	case CallerIp;
 	case CallerSp;
@@ -300,6 +302,8 @@ component Opcodes {
 		t[Opcode.PtrAtObjectField.tag] =	F;
 		t[Opcode.PtrLoad.tag] =			NONE;
 		t[Opcode.PtrStore.tag] =		NONE;
+		t[Opcode.RangeFromPtrAndLength.tag] =	P|NNC;
+		t[Opcode.RangeStartFromPtr.tag] =	P|NNC;
 
 		t[Opcode.CallerIp.tag] =		P;
 		t[Opcode.CallerSp.tag] =		P;

@@ -53,4 +53,5 @@ class Pointer_OpCache(ptrType: Type, it: IntType) {
 	def atObject = V3Op.newPtrAtObject(TypeUtil.REF_TYPE_PARAM.head, ptrType);
 	def atElem = V3Op.newPtrAtRangeElem(typeParam, ptrType);
 	def atEnd = V3Op.newPtrAtEnd(TypeUtil.REF_TYPE_PARAM.head, ptrType);
+	def opToRange = V3Op.newRangeFromPtrAndLength(ptrType, typeParam);
 }

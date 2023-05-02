@@ -1,0 +1,14 @@
+//@execute (0, 0)=0; (0, 1)=11; (0, 2)=-211; (2, 3)=514444
+def data = [11, -222, 3333, -44444, 555555];
+
+def main(a: int, len: int) -> int {
+	var p = Pointer.atElement(data, a);
+	var r = p.toRange<int>(len);
+	return sum(r);
+}
+
+def sum(r: Range<int>) -> int {
+	var s = 0;
+	for (e in r) s += e;
+	return s;
+}

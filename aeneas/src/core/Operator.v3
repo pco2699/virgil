@@ -469,6 +469,14 @@ component V3Op {
 	def newPtrStore(ptrType: Type, valueType: Type) -> Operator {
 		return newOp0(Opcode.PtrStore, [ptrType, valueType], [ptrType, valueType], type_v);
 	}
+	def newRangeFromPtrAndLength(ptrType: Type, elemType: Type) -> Operator {
+		var rangeType = V3Range.newType(elemType);
+		return newOp0(Opcode.RangeFromPtrAndLength, [ptrType, elemType], [ptrType, Int.TYPE], rangeType);
+	}
+	def newRangeStartFromPtr(ptrType: Type, elemType: Type) -> Operator {
+		var arrayType = V3Array.newType(elemType);
+		return newOp0(Opcode.RangeStartFromPtr, [ptrType, elemType], [arrayType, ptrType], Int.TYPE);
+	}
 //----------------------------------------------------------------------------
 	def newCallerIp(ptrType: Type) -> Operator {
 		return newOp0(Opcode.CallerIp, TypeUtil.NO_TYPES, arr_v, ptrType);
