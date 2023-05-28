@@ -189,26 +189,26 @@ component V3Op {
 		}
 		return newOp0(Opcode.ArrayTupleInit(elems, length), [arrayType], paramTypes, arrayType);
 	}
-	def newArrayGetElem(arrayType: Type) -> Operator {
+	def newArrayGetElem(arrayType: Type, indexType: IntType) -> Operator {
 		var op = if(V3.isArray(arrayType), Opcode.ArrayGetElem, Opcode.RangeGetElem);
-		return newOp0(op, [arrayType], [arrayType, type_i], V3Array.elementType(arrayType));
+		var tt = [arrayType, indexType];
+		return newOp0(op, tt, tt, V3Array.elementType(arrayType));
 	}
-	def newArrayGetElem2(arrayType: Type, indexType: IntType) -> Operator {
-		var op = if(V3.isArray(arrayType), Opcode.ArrayGetElem, Opcode.RangeGetElem);
-		return newOp0(op, [arrayType], [arrayType, indexType], V3Array.elementType(arrayType));
-	}
-	def newArraySetElem(arrayType: Type) -> Operator {
+	def newArraySetElem(arrayType: Type, indexType: IntType) -> Operator {
 		var etype = V3Array.elementType(arrayType);
 		var op = if(V3.isArray(arrayType), Opcode.ArraySetElem, Opcode.RangeSetElem);
-		return newOp0(op, [arrayType], [arrayType, type_i, etype], type_v);
+		var tt = [arrayType, indexType, etype];
+		return newOp0(op, tt, tt, type_v);
 	}
-	def newArrayGetElemElem(arrayType: Type, index: int) -> Operator {
+	def newArrayGetElemElem(arrayType: Type, indexType: IntType, index: int) -> Operator {
 		var etype = Tuple.elementType(V3Array.elementType(arrayType), index);
-		return newOp0(Opcode.ArrayGetElemElem(index), [arrayType], [arrayType, type_i], etype);
+		var tt = [arrayType, indexType];
+		return newOp0(Opcode.ArrayGetElemElem(index), tt, tt, etype);
 	}
-	def newArraySetElemElem(arrayType: Type, index: int) -> Operator {
+	def newArraySetElemElem(arrayType: Type, indexType: Type, index: int) -> Operator {
 		var etype = Tuple.elementType(V3Array.elementType(arrayType), index);
-		return newOp0(Opcode.ArraySetElemElem(index), [arrayType], [arrayType, type_i, etype], type_v);
+		var tt = [arrayType, indexType, etype];
+		return newOp0(Opcode.ArraySetElemElem(index), tt, tt, type_v);
 	}
 	def newArrayGetLength(arrayType: Type) -> Operator {
 		var op = if(V3.isArray(arrayType), Opcode.ArrayGetLength, Opcode.RangeGetLength);
